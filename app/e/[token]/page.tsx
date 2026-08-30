@@ -58,21 +58,15 @@ export default async function FriendPage({
     <div className="min-h-screen">
       <header className="border-b border-neutral-200 bg-[#f7f3ec]/90">
         <div className="mx-auto flex h-14 max-w-[1280px] items-center px-6 lg:px-10">
-          <span className="text-sm font-extrabold tracking-tight text-neutral-900">
-            for you<span className="text-rose-500">.</span>
+          <span className="text-lg font-extrabold tracking-tight text-neutral-900">
+            Celebirth
           </span>
         </div>
       </header>
 
       <main className="mx-auto max-w-[1280px] px-6 py-10 lg:px-10 lg:py-16">
         <div className="mb-8 lg:mb-12">
-          <p className="mb-1 text-xs font-bold uppercase tracking-widest text-rose-500">
-            Celebirth
-          </p>
-          <h1 className="text-3xl font-extrabold tracking-tight text-neutral-900 lg:text-4xl">
-            Ucapan untuk {event.name}
-          </h1>
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="text-sm text-neutral-500">
             Lihat ucapan dari teman-teman lain, atau tulis ucapanmu sendiri
           </p>
         </div>
