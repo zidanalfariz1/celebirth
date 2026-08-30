@@ -38,9 +38,11 @@ const itemVariants = {
 export function WishWall({
   eventName,
   wishes,
+  hideHeading = false,
 }: {
   eventName: string;
   wishes: Wish[];
+  hideHeading?: boolean;
 }) {
   const [activeTab, setActiveTab] = useState<"semua" | "pesan" | "voice">("semua");
 
@@ -52,12 +54,16 @@ export function WishWall({
 
   return (
     <div>
-      <h2 className="mb-1 text-3xl font-extrabold tracking-tight text-neutral-900 lg:text-4xl">
-        Ucapan buat {eventName}
-      </h2>
-      <p className="mb-6 text-sm text-neutral-500">
-        {wishes.length} orang udah kirim ucapan
-      </p>
+      {!hideHeading && (
+        <>
+          <h2 className="mb-1 text-3xl font-extrabold tracking-tight text-neutral-900 lg:text-4xl">
+            Ucapan buat {eventName}
+          </h2>
+          <p className="mb-6 text-sm text-neutral-500">
+            {wishes.length} orang udah kirim ucapan
+          </p>
+        </>
+      )}
 
       <div className="mb-5 flex gap-1 rounded-full bg-neutral-100 p-1 md:w-fit">
         <TabButton active={activeTab === "semua"} onClick={() => setActiveTab("semua")}>
