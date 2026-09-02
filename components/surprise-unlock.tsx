@@ -35,9 +35,14 @@ export function SurpriseUnlock({
   coverImage: string | null;
 }) {
   const router = useRouter();
-  const [target] = useState(() => new Date(`${birthdayDate}T00:00:00`));
   const searchParams = useSearchParams();
   const forcePreview = searchParams.get("preview") === "1";
+
+  const [target] = useState(() =>
+    forcePreview
+      ? new Date(Date.now() + 12000)
+      : new Date(`${birthdayDate}T00:00:00`)
+  );
 
   const [phase, setPhase] = useState<Phase>("loading");
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
