@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import confetti from "canvas-confetti";
 
 type TimeLeft = {
@@ -12,7 +12,7 @@ type TimeLeft = {
   seconds: number;
 };
 
-type Phase = "loading" | "countdown" | "final" | "ready";
+type Phase = "loading" | "countdown" | "ready";
 
 function getTimeLeft(target: Date): TimeLeft {
   const diff = Math.max(0, target.getTime() - Date.now());
@@ -46,7 +46,6 @@ export function SurpriseUnlock({
     minutes: 0,
     seconds: 0,
   });
-  const [finalCount, setFinalCount] = useState(10);
   const [isUnlocking, setIsUnlocking] = useState(false);
 
   useEffect(() => {
@@ -57,7 +56,7 @@ export function SurpriseUnlock({
       setTimeLeft(left);
       const ready = forcePreview || Date.now() >= target.getTime();
       if (ready) {
-        setPhase((prev) => (prev === "countdown" || prev === "loading" ? "final" : prev));
+        setPhase("ready");
       }
     };
 
@@ -65,24 +64,6 @@ export function SurpriseUnlock({
     const interval = setInterval(tick, 1000);
     return () => clearInterval(interval);
   }, [target, forcePreview]);
-
-  useEffect(() => {
-    if (phase !== "final") return;
-
-    setFinalCount(10);
-    const id = setInterval(() => {
-      setFinalCount((c) => {
-        if (c <= 1) {
-          clearInterval(id);
-          setTimeout(() => setPhase("ready"), 300);
-          return 0;
-        }
-        return c - 1;
-      });
-    }, 150);
-
-    return () => clearInterval(id);
-  }, [phase]);
 
   function handleUnlock() {
     setIsUnlocking(true);
@@ -94,28 +75,6 @@ export function SurpriseUnlock({
 
   if (phase === "loading") {
     return <div className="min-h-screen bg-neutral-950" />;
-  }
-
-  if (phase === "final") {
-    return (
-      <div className="flex min-h-screen flex-col items-center justify-center bg-neutral-950 text-white">
-        <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-neutral-400">
-          Hampir sampai...
-        </p>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={finalCount}
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 1.4 }}
-            transition={{ duration: 0.25 }}
-            className="text-8xl font-extrabold leading-none tabular-nums sm:text-9xl lg:text-[14rem]"
-          >
-            {finalCount}
-          </motion.div>
-        </AnimatePresence>
-      </div>
-    );
   }
 
   if (phase === "countdown") {
