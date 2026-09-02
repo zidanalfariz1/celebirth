@@ -57,7 +57,7 @@ export function SurpriseUnlock({
 
   const [target] = useState(() =>
     forcePreview
-      ? new Date(Date.now() + 12000)
+      ? new Date(Date.now() - 1000) // udah lewat, langsung trigger animasi "final"
       : new Date(`${birthdayDate}T00:00:00`)
   );
 
